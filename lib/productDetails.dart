@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'data/cartService.dart';
+import 'data/routesApi.dart';
+
 class Productdetails extends StatelessWidget {
 
   final dynamic product;
-
-  const Productdetails(this.product, {super.key});
+  final  int userId;
+  const Productdetails(this.product,this.userId ,{super.key});
 
   // Dashboard URL
-  final String dashboardUrl = 'https://5lcp61q9-7001.inc1.devtunnels.ms/';
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class Productdetails extends StatelessWidget {
     // Complete Image URL
     final String imageUrl = imagePath.isEmpty
         ? ''
-        : Uri.parse(dashboardUrl)
+        : Uri.parse(ConnString.dashboardUrl)
         .resolve(imagePath)
         .toString();
 
@@ -103,6 +106,32 @@ class Productdetails extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                     ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      try {
+                        await Cartservice().AddtoCart(
+                          userId,
+                          product['id'],
+                        );
+
+                        if (!context.mounted) return;
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Product Added to Cart'),
+                          ),
+                        );
+                      } catch (e) {
+                        if (!context.mounted) return;
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error: $e')),
+                        );
+                      }
+                    },
+                    icon: const Icon(Icons.shopping_cart),
+                    label: const Text('Add to Cart'),
                   ),
 
                 ],

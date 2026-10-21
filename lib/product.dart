@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'data/productService.dart';
+import 'data/routesApi.dart';
 import 'home.dart';
 import 'productDetails.dart';
 
 class Product extends StatefulWidget {
-  const Product({super.key});
+   Product(this.userId,{super.key});
+
+  final  int userId;
 
   @override
   State<Product> createState() => _ProductState();
@@ -18,7 +21,7 @@ class _ProductState extends State<Product> {
   late Future<List<dynamic>> products;
 
   // Dashboard URL
-  final String dashboardUrl = 'https://5lcp61q9-7001.inc1.devtunnels.ms/';
+
 
   @override
   void initState() {
@@ -83,7 +86,7 @@ class _ProductState extends State<Product> {
               // Complete Image URL
               final String imageUrl = imagePath.isEmpty
                   ? ''
-                  : Uri.parse(dashboardUrl)
+                  : Uri.parse(ConnString.dashboardUrl)
                   .resolve(imagePath)
                   .toString();
 
@@ -93,7 +96,7 @@ class _ProductState extends State<Product> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          Productdetails(product),
+                          Productdetails(product,widget.userId),
                     ),
                   );
                 },

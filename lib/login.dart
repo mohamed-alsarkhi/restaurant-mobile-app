@@ -42,12 +42,12 @@ class _LoginState extends State<Login> {
       isLoading = true;
     });
     try {
-      bool userFound = await userService.login(username, password);
+      final user = await userService.login(username, password);
       if (!context.mounted) return;
-      if (userFound) {
+      if (user!=null) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Home(username)),
+          MaterialPageRoute(builder: (context) => Home(user["username"],user["userId"])),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

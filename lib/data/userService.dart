@@ -5,7 +5,7 @@ import 'dart:convert';
 class UserService {
 
 
-  Future<bool> login(String username, String password) async {
+  Future<Map<String, dynamic>?>  login(String username, String password) async {
 
     final response = await http.post(
       Uri.parse('https://5lcp61q9-7100.inc1.devtunnels.ms/api/Users/login'),
@@ -23,9 +23,9 @@ class UserService {
     );
 
     if (response.statusCode == 200) {
-      return true;
+      return json.decode(response.body);
     } else if (response.statusCode == 401) {
-      return false;
+      return null;
     } else {
       throw Exception('Failed to login');
     }

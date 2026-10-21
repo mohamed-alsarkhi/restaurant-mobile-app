@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/categorys.dart';
 
+import 'Cart.dart';
 import 'login.dart';
 import 'product.dart';
 import 'profile.dart';
 
 class Home extends StatelessWidget {
-   Home(this.user, {super.key});
-   String user;
+   Home(this.username,this.userId, {super.key});
+   String username;
+   final  int userId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +83,7 @@ class Home extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Product(),
+                    builder: (context) =>  Product(userId),
                   ),
                 );
               },
@@ -99,6 +101,23 @@ class Home extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const Categorys(),
+                  ),
+                );
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text('My Cart'),
+              subtitle: const Text('Go to Cart screen'),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () {
+
+                // هنا تقدر تروح لصفحة ثانية
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>  Cart(userId),
                   ),
                 );
               },
@@ -154,7 +173,7 @@ class Home extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children:  [
                   Text(
-                    "$user مرحبا بك يا  👋",
+                    "$username مرحبا بك يا  👋",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,

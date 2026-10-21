@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Home("ahmed"),
+      home: Home("ahmed",1),
       debugShowCheckedModeBanner: false,
     );
   }
