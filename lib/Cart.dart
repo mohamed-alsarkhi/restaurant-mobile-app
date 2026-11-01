@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'data/OrderService.dart';
 import 'data/cartService.dart';
 import 'data/routesApi.dart';
 
@@ -13,11 +14,60 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   final Cartservice cartservice = Cartservice();
+  final OrderService orderService =OrderService();
+
+  bool isOrdering = false;
+
+
+  Future<void> makeOrder() async {
+    if (isOrdering) return;
+
+    setState(() {
+      isOrdering = true;
+    });
+
+    try {
+      final orderId = await orderService.makeOrder(widget.userId);
+
+      if (!mounted) return;
+
+      setState(() {
+        loadCart();
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Order #$orderId created successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+
+    } finally {
+      if (mounted) {
+        setState(() {
+          isOrdering = false;
+        });
+      }
+    }
+  }
 
   late Future<List<dynamic>> cartitems;
   @override
   void initState() {
     super.initState();
+    loadCart();
+  }
+  void loadCart() {
     cartitems = cartservice.getCart(widget.userId);
   }
 
@@ -162,6 +212,32 @@ class _CartState extends State<Cart> {
                   ),
                 ),
               ),
+
+
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: isOrdering ? null : makeOrder,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurpleAccent,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: isOrdering
+                        ? const CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                        : const Text(
+                      'Make Order',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
+
+
             ],
           );
         },

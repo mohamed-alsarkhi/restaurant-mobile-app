@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/categorys.dart';
+import 'package:my_app/myOrders.dart';
 
 import 'Cart.dart';
 import 'login.dart';
@@ -118,6 +119,23 @@ class Home extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>  Cart(userId),
+                  ),
+                );
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.shopping_bag),
+              title: const Text('My Orders'),
+              subtitle: const Text('Go to Order screen'),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () {
+
+                // هنا تقدر تروح لصفحة ثانية
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>  MyOrders(userId),
                   ),
                 );
               },

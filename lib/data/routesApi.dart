@@ -7,5 +7,5 @@ class ConnString{
   static const String login= '$baseUrl/Users/login';
   static const String AddinCart= '$baseUrl/Cart/addinCart';
   static const String ClearCart= '$baseUrl/Cart/clearCart';
-
+  static const String orders= '$baseUrl/Orders';
 }
